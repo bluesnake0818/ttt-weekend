@@ -9,7 +9,6 @@ let squaresArray, turn, isWinner
 
 /*------------------------ Cached Element References ------------------------*/
 const sq = document.querySelector(".sq")
-// const form = document.querySelector("form")
 const messageEl = document.querySelector("#message")
 const replayBtn = document.querySelector("#replay-button")
 const winnerBoard = document.querySelector("#winner")
@@ -23,26 +22,26 @@ const sq5 = document.querySelector("#sq5")
 const sq6 = document.querySelector("#sq6")
 const sq7 = document.querySelector("#sq7")
 const sq8 = document.querySelector("#sq8")
+const playBoard = document.querySelector(".board")
 
 
 
 /*----------------------------- Event Listeners -----------------------------*/
 replayBtn.addEventListener("click", init)
 
-// form.addEventListener("click", function(evt) {
-// 	turn = evt.target.value 
-// })
+
+playBoard.addEventListener("click", addShape)
 
 
-sq0.addEventListener("click", addShape)
-sq1.addEventListener("click", addShape) 
-sq2.addEventListener("click", addShape)
-sq3.addEventListener("click", addShape) 
-sq4.addEventListener("click", addShape)
-sq5.addEventListener("click", addShape) 
-sq6.addEventListener("click", addShape)
-sq7.addEventListener("click", addShape) 
-sq8.addEventListener("click", addShape)
+// sq0.addEventListener("click", addShape)
+// sq1.addEventListener("click", addShape) 
+// sq2.addEventListener("click", addShape)
+// sq3.addEventListener("click", addShape) 
+// sq4.addEventListener("click", addShape)
+// sq5.addEventListener("click", addShape) 
+// sq6.addEventListener("click", addShape)
+// sq7.addEventListener("click", addShape) 
+// sq8.addEventListener("click", addShape)
 
 
 
@@ -116,11 +115,8 @@ function renderIsWinner() {
 	// Check if there's a winner. If there's a winner, getWinner() function will assign a corresponding number to isWinner.
 	getWinner()
 
-
-	
 	// If a winner has been determined, a correspoding message will be updated. 
 	if (isWinner === 1) {
-		
 		winnerBoard.textContent = `Player X Wins`
 	} else if (isWinner === -1) {
 		winnerBoard.textContent = `Player O Wins`
@@ -170,7 +166,7 @@ function getTurn () {
 
 
 function getWinner () {
-	// X Wins
+	// "X" Wins
 	if(sq0.value === 1 && sq1.value === 1 && sq2.value === 1) {
 		isWinner = 1
 	}
@@ -196,7 +192,7 @@ function getWinner () {
 		isWinner = 1
 	}
 
-	// O Wins
+	// "O" Wins
 	if(sq0.value === -1 && sq1.value === -1 && sq2.value === -1) {
 		isWinner = -1
 	}
@@ -286,16 +282,24 @@ function addShape(event) {
 
 
 /* user stories
-1. user should see an empty tic-tac-toe board when the page at first
-2. user can click on one of the nine cells to make a move
-3. user's click each turn will be displayed on each square, alternate between O and X
-4. User cannot play a cell marked with an X or O already. 
-5. user can click a reset button and it will clear the cotents of the board. 
-6. User should see whose turn it is in X or O
+// 1. user should see an empty tic-tac-toe board when the page at first
+// 2. user can click on one of the nine cells to make a move
+// 3. user's click each turn will be displayed on each square, alternate between O and X
+// 4. User cannot play a cell marked with an X or O already. 
+// 5. user can click a reset button and it will clear the cotents of the board. 
+// 6. User should see whose turn it is in X or O
 7. User should see a win logic and a winning message when the game is over
 8. User should see a logic for a tie, and see a message. 
 9. 유저는 처음 플레이 때 X로할건지 O로할건지  정할수 있다. (Turn = -1 or Turn = 1)
-10. 한번 누른 곳은 다시 못 누른다. 
+// 10. 한번 누른 곳은 다시 못 누른다. 
 11. 처음이랑 마지막에 'turn'을 디스플레이에서 사라지게
-12. 처음 누를때 한번 더 눌러야 shape이 나온다. 
+// 12. 처음 누를때 한번 더 눌러야 shape이 나온다. 
+13. Resetting innerHTML should be done in one place
+14. CSS
+15. sq 0-8 in one go
+16. win logic abbreivated
+// form.addEventListener("click", function(evt) {
+// 	turn = evt.target.value 
+// })
+// const form = document.querySelector("form")
 */
