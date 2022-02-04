@@ -75,16 +75,18 @@ function render() {
 
 	// If a winner has been determined, a correspoding message will be updated. 
 	if (isWinner === 1) {
-		winnerBoard.textContent = `Player X Wins`
+		winnerBoard.textContent = `Player X Wins. 3 X's in a row.`
 	} else if (isWinner === -1) {
-		winnerBoard.textContent = `Player O Wins`
+		winnerBoard.textContent = `Player O Wins. 3 O's in a row.`
 	} else { // if there's no winner, check whether the game is a tie.
 		isTie()
 	}
 
 	// if there's a winner or if the game is a tie, display the result
+	// remove hidden properties for replay button
 	if(isWinner !== null) {
-		winnerBoard.removeAttribute("hidden")
+		winnerBoard.removeAttribute("hidden")		
+		replayBtn.removeAttribute("hidden")
 	}
 
 	console.log(winnerBoard.textContent)
@@ -102,7 +104,11 @@ function isTie () {
 
 		if(countNull < 1) {
 		// If it's a tie, update a corresponding message. 
-			winnerBoard.textContent = `It's a cat's game. You are tied.`
+		// unhide the message in the winnerBoard section.
+			winnerBoard.textContent = `It's a cat's game. You are tied. No player can have 3 marks in a row.`
+			winnerBoard.removeAttribute("hidden")
+		// remove hidden properties for replay button
+			replayBtn.removeAttribute("hidden")
 		} else { 
 		// if it's not a tie, update whose turn it is.
 			getTurn()
@@ -118,8 +124,7 @@ function getTurn () {
 		// remove hidden properties for turnBoard
 		turnBoard.removeAttribute("hidden")
 
-		// remove hidden properties for replay button
-		replayBtn.removeAttribute("hidden")
+
 }
 
 
@@ -190,6 +195,7 @@ function addShape(event) {
 		}
 		turn = turn * -1
 		console.log(event.target.value)
+
 		render()
 	}
 }
@@ -205,8 +211,8 @@ function addShape(event) {
 // 4. User cannot play a cell marked with an X or O already. 
 // 5. user can click a reset button and it will clear the cotents of the board. 
 // 6. User should see whose turn it is in X or O
-7. User should see a win logic and a winning message when the game is over
-8. User should see a logic for a tie, and see a message. 
+// 7. User should see a win logic and a winning message when the game is over
+// 8. User should see a logic for a tie, and see a message. 
 9. 유저는 처음 플레이 때 X로할건지 O로할건지  정할수 있다. (Turn = -1 or Turn = 1)
 // 10. 한번 누른 곳은 다시 못 누른다. 
 11. 처음이랑 마지막에 'turn'을 디스플레이에서 사라지게
@@ -215,6 +221,7 @@ function addShape(event) {
 14. CSS
 // 15. sq 0-8 in one go
 16. win logic abbreivated
+17. win logic in animation or graphic
 // form.addEventListener("click", function(evt) {
 // 	turn = evt.target.value 
 // })
