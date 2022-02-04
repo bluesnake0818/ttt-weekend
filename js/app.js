@@ -8,31 +8,29 @@ let squaresArray, turn, isWinner
 
 
 /*------------------------ Cached Element References ------------------------*/
-const sq = document.querySelector(".sq")
+// const sq = document.querySelector(".sq")
 const messageEl = document.querySelector("#message")
 const replayBtn = document.querySelector("#replay-button")
 const winnerBoard = document.querySelector("#winner")
 const turnBoard = document.querySelector("#turn")
-const sq0 = document.querySelector("#sq0")
-const sq1 = document.querySelector("#sq1")
-const sq2 = document.querySelector("#sq2")
-const sq3 = document.querySelector("#sq3")
-const sq4 = document.querySelector("#sq4")
-const sq5 = document.querySelector("#sq5")
-const sq6 = document.querySelector("#sq6")
-const sq7 = document.querySelector("#sq7")
-const sq8 = document.querySelector("#sq8")
+// const sq0 = document.querySelector("#sq0")
+// const sq1 = document.querySelector("#sq1")
+// const sq2 = document.querySelector("#sq2")
+// const sq3 = document.querySelector("#sq3")
+// const sq4 = document.querySelector("#sq4")
+// const sq5 = document.querySelector("#sq5")
+// const sq6 = document.querySelector("#sq6")
+// const sq7 = document.querySelector("#sq7")
+// const sq8 = document.querySelector("#sq8")
 const playBoard = document.querySelector(".board")
-
-
+const buttons = document.querySelector(".buttons")
 
 /*----------------------------- Event Listeners -----------------------------*/
 playBoard.addEventListener("click", addShape)
 replayBtn.addEventListener("click", init)
+buttons.addEventListener("click", pickTurn)
 
-
-
-
+console.log(sq0.textContent)
 
 /*-------------------------------- Functions --------------------------------*/
 init()
@@ -51,11 +49,14 @@ function init() {
 	// Update message
 	messageEl.textContent = "Welcome to the game of Tic-Tac-Toe"
 	
-	// set inital turn to X's turn (X=1, O=-1 )
+	// set inital turn to X's turn ('X'=1, 'O'=-1)
 	turn = 1 
 
 	// set isWinner to null (1, -1, T)
 	isWinner = null 
+
+	// hide the play board initially and show the board only when a mark is selected
+	playBoard.setAttribute("hidden", true)
 
 	// hide whose turn it is and who the winner prior to user's first move
 	turnBoard.setAttribute("hidden", true)
@@ -63,6 +64,9 @@ function init() {
   
 	// hide replay button
 	replayBtn.setAttribute("hidden", true)
+
+	// show pick mark button
+	buttons.removeAttribute("hidden")
 
 	// render output
 	render()
@@ -84,9 +88,11 @@ function render() {
 
 	// if there's a winner or if the game is a tie, display the result
 	// remove hidden properties for replay button
+	// turnBoard will become hidden
 	if(isWinner !== null) {
 		winnerBoard.removeAttribute("hidden")		
 		replayBtn.removeAttribute("hidden")
+		turnBoard.setAttribute("hidden", true)
 	}
 
 	console.log(winnerBoard.textContent)
@@ -121,15 +127,12 @@ function getTurn () {
 		} else {
 		turnBoard.textContent = `O's turn.`
 		}
-		// remove hidden properties for turnBoard
-		turnBoard.removeAttribute("hidden")
-
-
 }
 
 
 function getWinner () {
 	// "X" Wins
+
 	if(sq0.value === 1 && sq1.value === 1 && sq2.value === 1) {
 		isWinner = 1
 	}
@@ -200,7 +203,22 @@ function addShape(event) {
 	}
 }
 
+function pickTurn (evt) {
+	if(evt.target.textContent === 'X'){
+		turn = 1
+	} else if (evt.target.textContent === 'O') {
+		turn = -1
+	}
 
+	// update who's turnBoard
+	getTurn()
+	// hide mark buttons if a mark has been selected. 
+	buttons.setAttribute("hidden", true)
+	// show play board if a mark has been selected. 
+	playBoard.removeAttribute("hidden")
+	// remove hidden properties for turnBoard
+	turnBoard.removeAttribute("hidden")
+}
 
 
 
@@ -213,19 +231,24 @@ function addShape(event) {
 // 6. User should see whose turn it is in X or O
 // 7. User should see a win logic and a winning message when the game is over
 // 8. User should see a logic for a tie, and see a message. 
-9. 유저는 처음 플레이 때 X로할건지 O로할건지  정할수 있다. (Turn = -1 or Turn = 1)
+// 9. 유저는 처음 플레이 때 X로할건지 O로할건지  정할수 있다. (Turn = -1 or Turn = 1)
 // 10. 한번 누른 곳은 다시 못 누른다. 
-11. 처음이랑 마지막에 'turn'을 디스플레이에서 사라지게
+// 11a. 처음에 'turn'을 디스플레이에서 사라지게
+// 11b. 마지막에 'turn'을 디스플레이에서 사라지게
 // 12. 처음 누를때 한번 더 눌러야 shape이 나온다. 
 // 13. Resetting innerHTML should be done in one place
 14. CSS
 // 15. sq 0-8 in one go
 16. win logic abbreivated
 17. win logic in animation or graphic
-// form.addEventListener("click", function(evt) {
-// 	turn = evt.target.value 
-// })
-// const form = document.querySelector("form")
+18. condense win logic function
+19. condense declaration of "sq" variables
+20. Write a ternary function
+21. other stuff in instructions
+22. comments pseudo-code
+23. 쓸데없는 else if 정리
+24. bootstrap link 없애면 board 안 사라지는 문제 해결하기
+
 */
 
 	/* Winning combos
