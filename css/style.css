@@ -16,6 +16,7 @@ section.board {
   grid-template-columns: repeat(3, 10vmin);
   grid-gap: 0vmin;
   margin: 0 auto;
+  
 }
 
 div {
@@ -37,4 +38,8 @@ div {
 
 #x-button, #o-button {
   width: 50px
+}
+
+.win {
+  background-color: blue;
 }

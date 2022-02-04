@@ -1,8 +1,9 @@
 /*-------------------------------- Constants --------------------------------*/
-
+[1, 1, 1, null, null, null, null, null, null]
+[1, 1, 1, null, null, null, null, null, null]
 
 /*---------------------------- Variables (state) ----------------------------*/
-let squaresArray, turn, isWinner
+let boardArray, turn, isWinner
 
 
 
@@ -13,15 +14,6 @@ const messageEl = document.querySelector("#message")
 const replayBtn = document.querySelector("#replay-button")
 const winnerBoard = document.querySelector("#winner")
 const turnBoard = document.querySelector("#turn")
-// const sq0 = document.querySelector("#sq0")
-// const sq1 = document.querySelector("#sq1")
-// const sq2 = document.querySelector("#sq2")
-// const sq3 = document.querySelector("#sq3")
-// const sq4 = document.querySelector("#sq4")
-// const sq5 = document.querySelector("#sq5")
-// const sq6 = document.querySelector("#sq6")
-// const sq7 = document.querySelector("#sq7")
-// const sq8 = document.querySelector("#sq8")
 const playBoard = document.querySelector(".board")
 const buttons = document.querySelector(".buttons")
 
@@ -30,18 +22,17 @@ playBoard.addEventListener("click", addShape)
 replayBtn.addEventListener("click", init)
 buttons.addEventListener("click", pickTurn)
 
-console.log(sq0.textContent)
 
 /*-------------------------------- Functions --------------------------------*/
 init()
 
 function init() {
-	// map each square to the corresponding places in squaresArray = [sq0, sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8] 
-	squaresArray = [sq0,sq1,sq2,sq3,sq4,sq5,sq6,sq7,sq8]
+	// map each square to the corresponding places in boardArray = [sq0, sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8] 
+	boardArray = [sq0,sq1,sq2,sq3,sq4,sq5,sq6,sq7,sq8]
 
 	// map each square value to null 
 	// reset each shape in the square
-	squaresArray.forEach(element => {
+	boardArray.forEach(element => {
 		element.value = null
 		element.innerHTML = ""
 	})
@@ -52,10 +43,13 @@ function init() {
 	// set inital turn to X's turn ('X'=1, 'O'=-1)
 	turn = 1 
 
-	// set isWinner to null (1, -1, T)
+	// set isWinner to null (1, -1, T, null)
 	isWinner = null 
 
 	// hide the play board initially and show the board only when a mark is selected
+	playBoard.setAttribute("hidden", true)
+
+	// reset playboard color
 	playBoard.setAttribute("hidden", true)
 
 	// hide whose turn it is and who the winner prior to user's first move
@@ -73,6 +67,12 @@ function init() {
 }
 
 function render() {
+	
+
+
+
+
+
 
 	// Check if there's a winner. If there's a winner, getWinner() function will assign a corresponding number to isWinner.
 	getWinner()
@@ -102,8 +102,8 @@ function render() {
 function isTie () {
 		// You can figure out how many moves are left in the game by checking how many squares are still null. 
 		let countNull = 0
-		for(let i=0; i<squaresArray.length;i++) {
-			if(squaresArray[i].value === null) {
+		for(let i=0; i<boardArray.length;i++) {
+			if(boardArray[i].value === null) {
 				countNull++
 			}
 		}
@@ -133,60 +133,142 @@ function getTurn () {
 function getWinner () {
 	// "X" Wins
 
+	// if(boardArray[0] === 1) {
+	// 	if(boardArray[1] === 1 && boardArray[2] === 1){
+	// 		isWinner = 1
+	// 	}
+	// 	if(boardArray[1] === 1 && boardArray[2] === 1){
+	// 		isWinner = 1
+	// 	}
+	// 	if(boardArray[1] === 1 && boardArray[2] === 1){
+	// 		isWinner = 1
+	// 	}
+	// }
+
+
+	// if(sq0.value !== null && sq1.value !== null && sq2.value !== null) {
+	// 	if(sq0.value === sq1.value === sq2.value) {
+	// 		if(sq0.value === 1) {
+	// 			isWinner = 1
+	// 			sq0.className = "win"
+	// 			sq1.className = "win"
+	// 			sq2.className = "win"
+	// 		}
+	// 		else if (sq0.value === -1) {
+	// 			isWinner = -1
+	// 			sq0.className = "win"
+	// 			sq1.className = "win"
+	// 			sq2.className = "win"
+	// 		}
+
+	// 	}
+	// }
 	if(sq0.value === 1 && sq1.value === 1 && sq2.value === 1) {
 		isWinner = 1
-	}
-	if(sq3.value === 1 && sq4.value === 1 && sq5.value === 1) {
-		isWinner = 1
-	}
-	if(sq6.value === 1 && sq7.value === 1 && sq8.value === 1) {
-		isWinner = 1
+		sq0.className = "win"
+		sq1.className = "win"
+		sq2.className = "win"
 	}
 	if(sq0.value === 1 && sq3.value === 1 && sq6.value === 1) {
 		isWinner = 1
-	}
-	if(sq1.value === 1 && sq4.value === 1 && sq7.value === 1) {
-		isWinner = 1
-	}
-	if(sq2.value === 1 && sq5.value === 1 && sq8.value === 1) {
-		isWinner = 1
+		sq0.className = "win"
+		sq3.className = "win"
+		sq6.className = "win"
 	}
 	if(sq0.value === 1 && sq4.value === 1 && sq8.value === 1) {
 		isWinner = 1
+		sq0.className = "win"
+		sq4.className = "win"
+		sq8.className = "win"
+	}
+	if(sq1.value === 1 && sq4.value === 1 && sq7.value === 1) {
+		isWinner = 1
+		sq1.className = "win"
+		sq4.className = "win"
+		sq7.className = "win"
+	}
+	if(sq2.value === 1 && sq5.value === 1 && sq8.value === 1) {
+		isWinner = 1
+		sq2.className = "win"
+		sq5.className = "win"
+		sq8.className = "win"
 	}
 	if(sq2.value === 1 && sq4.value === 1 && sq6.value === 1) {
 		isWinner = 1
+		sq2.className = "win"
+		sq4.className = "win"
+		sq6.className = "win"
 	}
+	if(sq3.value === 1 && sq4.value === 1 && sq5.value === 1) {
+		isWinner = 1
+		sq3.className = "win"
+		sq4.className = "win"
+		sq5.className = "win"
+	}
+	if(sq6.value === 1 && sq7.value === 1 && sq8.value === 1) {
+		isWinner = 1
+		sq6.className = "win"
+		sq7.className = "win"
+		sq8.className = "win"
+	}
+
+
 
 	// "O" Wins
 	if(sq0.value === -1 && sq1.value === -1 && sq2.value === -1) {
 		isWinner = -1
+		sq0.className = "win"
+		sq1.className = "win"
+		sq2.className = "win"
 	}
 	if(sq3.value === -1 && sq4.value === -1 && sq5.value === -1) {
 		isWinner = -1
+		sq3.className = "win"
+		sq4.className = "win"
+		sq5.className = "win"
 	}
 	if(sq6.value === -1 && sq7.value === -1 && sq8.value === -1) {
 		isWinner = -1
+		sq6.className = "win"
+		sq7.className = "win"
+		sq8.className = "win"
 	}
 	if(sq0.value === -1 && sq3.value === -1 && sq6.value === -1) {
 		isWinner = -1
+		sq0.className = "win"
+		sq3.className = "win"
+		sq6.className = "win"
 	}
 	if(sq1.value === -1 && sq4.value === -1 && sq7.value === -1) {
 		isWinner = -1
+		sq1.className = "win"
+		sq4.className = "win"
+		sq7.className = "win"
 	}
 	if(sq2.value === -1 && sq5.value === -1 && sq8.value === -1) {
 		isWinner = -1
+		sq2.className = "win"
+		sq5.className = "win"
+		sq8.className = "win"
 	}
 	if(sq0.value === -1 && sq4.value === -1 && sq8.value === -1) {
 		isWinner = -1
+		sq0.className = "win"
+		sq4.className = "win"
+		sq8.className = "win"
 	}
 	if(sq2.value === -1 && sq4.value === -1 && sq6.value === -1) {
 		isWinner = -1
+		sq2.className = "win"
+		sq4.className = "win"
+		sq6.className = "win"
 	}
 
 } 
 
-
+// when user clicks on one of the 9 squares, this function is invoked.
+// This function changes the value of the target and change the display with X or O
+// Change the turn after every play
 function addShape(event) { 
 	if (event.target.value === null && isWinner === null) {
 		if (turn === 1) {
@@ -240,14 +322,17 @@ function pickTurn (evt) {
 14. CSS
 // 15. sq 0-8 in one go
 16. win logic abbreivated
-17. win logic in animation or graphic
+17. win logic in animation or graphic => color them
 18. condense win logic function
-19. condense declaration of "sq" variables
+// 19. condense declaration of "sq" variables
 20. Write a ternary function
 21. other stuff in instructions
 22. comments pseudo-code
 23. 쓸데없는 else if 정리
 24. bootstrap link 없애면 board 안 사라지는 문제 해결하기
+25. different color for the win message when there's a winner or a tie
+26. color of the squares resets once replay is pressed
+27. Display an empty tic-tac-toe board when the page is initially displayed.
 
 */
 
