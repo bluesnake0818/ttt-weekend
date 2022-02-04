@@ -27,21 +27,10 @@ const playBoard = document.querySelector(".board")
 
 
 /*----------------------------- Event Listeners -----------------------------*/
+playBoard.addEventListener("click", addShape)
 replayBtn.addEventListener("click", init)
 
 
-playBoard.addEventListener("click", addShape)
-
-
-// sq0.addEventListener("click", addShape)
-// sq1.addEventListener("click", addShape) 
-// sq2.addEventListener("click", addShape)
-// sq3.addEventListener("click", addShape) 
-// sq4.addEventListener("click", addShape)
-// sq5.addEventListener("click", addShape) 
-// sq6.addEventListener("click", addShape)
-// sq7.addEventListener("click", addShape) 
-// sq8.addEventListener("click", addShape)
 
 
 
@@ -49,33 +38,16 @@ playBoard.addEventListener("click", addShape)
 init()
 
 function init() {
-	// map each square value to null 
-	sq0.value = null
-	sq1.value = null
-	sq2.value = null
-	sq3.value = null
-	sq4.value = null
-	sq5.value = null
-	sq6.value = null
-	sq7.value = null
-	sq8.value = null
-
-	// reset each shape in the square
-	sq0.innerHTML = ""
-	sq1.innerHTML = ""
-	sq2.innerHTML = ""
-	sq3.innerHTML = ""
-	sq4.innerHTML = ""
-	sq5.innerHTML = ""
-	sq6.innerHTML = ""
-	sq7.innerHTML = ""
-	sq8.innerHTML = ""
-
-
-	
 	// map each square to the corresponding places in squaresArray = [sq0, sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8] 
 	squaresArray = [sq0,sq1,sq2,sq3,sq4,sq5,sq6,sq7,sq8]
-	
+
+	// map each square value to null 
+	// reset each shape in the square
+	squaresArray.forEach(element => {
+		element.value = null
+		element.innerHTML = ""
+	})
+
 	// Update message
 	messageEl.textContent = "Welcome to the game of Tic-Tac-Toe"
 	
@@ -97,15 +69,7 @@ function init() {
 }
 
 function render(){
-	
-	// assign each square to a corresponding shape based on the player value
-	for (let i=0;i<squaresArray.length;i++) {
-		if(squaresArray[i].value === 1) {
-			squaresArray[i].innerHTML = 'X'
-		} else if (squaresArray[i].value === -1){
-			squaresArray[i].innerHTML = 'O'
-		} 
-	}
+
   renderIsWinner()
 }
 
@@ -217,21 +181,7 @@ function getWinner () {
 	if(sq2.value === -1 && sq4.value === -1 && sq6.value === -1) {
 		isWinner = -1
 	}
-	/* Winning combos
-	Horizontal
-	1. 0-1-2
-	2. 3-4-5
-	3. 6-7-8
 
-	Vertical
-	1. 0-3-6
-	2. 1-4-7
-	3. 2-5-8
-
-	Diagonal
-	1. 0-4-8
-	2. 2-4-6
-	*/
 } 
 
 
@@ -253,33 +203,6 @@ function addShape(event) {
 
 
 
-// function renderIsWinner() {
-// 	if (isWinner !== null) {
-// 		winnerBoard.removeAttribute("hidden")
-// 			if (isWinner === 'T')
-// 			{
-// 				winnerBoard.textContent = `You are at a tie`
-// 			} else if (isWinner === 1) {
-// 				winnerBoard.textContent = `X wins`
-// 			} else if (isWinner === -1) {
-// 				winnerBoard.textContent = `O wins`
-// 			}
-// 	} else {
-// 		if (turn === 1) {
-// 			turnBoard.textContent = `X's turn.`
-// 		} else {
-// 			turnBoard.textContent = `O's turn.`
-// 		}
-// 	}
-// }
-
-
-
-
-
-
-
-
 
 /* user stories
 // 1. user should see an empty tic-tac-toe board when the page at first
@@ -294,12 +217,28 @@ function addShape(event) {
 // 10. 한번 누른 곳은 다시 못 누른다. 
 11. 처음이랑 마지막에 'turn'을 디스플레이에서 사라지게
 // 12. 처음 누를때 한번 더 눌러야 shape이 나온다. 
-13. Resetting innerHTML should be done in one place
+// 13. Resetting innerHTML should be done in one place
 14. CSS
-15. sq 0-8 in one go
+// 15. sq 0-8 in one go
 16. win logic abbreivated
 // form.addEventListener("click", function(evt) {
 // 	turn = evt.target.value 
 // })
 // const form = document.querySelector("form")
 */
+
+	/* Winning combos
+	Horizontal
+	1. 0-1-2
+	2. 3-4-5
+	3. 6-7-8
+
+	Vertical
+	1. 0-3-6
+	2. 1-4-7
+	3. 2-5-8
+
+	Diagonal
+	1. 0-4-8
+	2. 2-4-6
+	*/
