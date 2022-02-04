@@ -68,13 +68,7 @@ function init() {
 	render()
 }
 
-function render(){
-
-  renderIsWinner()
-}
-
-
-function renderIsWinner() {
+function render() {
 
 	// Check if there's a winner. If there's a winner, getWinner() function will assign a corresponding number to isWinner.
 	getWinner()
@@ -196,7 +190,7 @@ function addShape(event) {
 		}
 		turn = turn * -1
 		console.log(event.target.value)
-		renderIsWinner()
+		render()
 	}
 }
 
