@@ -75,6 +75,9 @@ function init() {
 	// show pick mark button
 	buttons.removeAttribute("hidden")
 
+	//winner board name is reset (color returns to normal from blue)
+	winnerBoard.className = ""
+
 	// render output
 	render()
 }
@@ -105,9 +108,11 @@ function render(string, value) {
 		winnerBoard.textContent = `It's a cat's game. No player can have 3 marks in a row.`
 	} else {
 		if (isWinner === 1) {
-			winnerBoard.textContent = `Player X Wins. 3 X's in a row.`
+			winnerBoard.textContent = `Player X Wins. 3 X's in a row (straigth line or diagonal).`
+			winnerBoard.className = "win"
 		} else if (isWinner === -1) {
-			winnerBoard.textContent = `Player O Wins. 3 O's in a row.`
+			winnerBoard.textContent = `Player O Wins. 3 O's in a row (straigth line or diagonal).`
+			winnerBoard.className = "win"
 		}
 	}
 	
