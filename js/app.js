@@ -29,9 +29,9 @@ const playBoard = document.querySelector(".board")
 const buttons = document.querySelector(".buttons")
 
 /*----------------------------- Event Listeners -----------------------------*/
-playBoard.addEventListener("click", addShape)
+playBoard.addEventListener("click", chooseSquare)
 replayBtn.addEventListener("click", init)
-buttons.addEventListener("click", pickTurn)
+buttons.addEventListener("click", chooseShape)
 
 
 /*-------------------------------- Functions --------------------------------*/
@@ -45,6 +45,7 @@ function init() {
 	// reset each shape in the square
 	boardArray.forEach(element => {
 		element.value = null
+		element.className = ""
 		element.innerHTML = ""
 	})
 
@@ -95,9 +96,10 @@ function render(string, value) {
 
 	// Check if there's a winner. If there's a winner, getWinner() function will assign a corresponding number to isWinner.
 	getWinner()
-
 	
-	if (isWinner !== null) {
+	// If there's a winner or a tie, end the game and show corresponding message. 
+	// If game is still ungoing (isWinner === null), invoke getTurn() to update whose turn to play it is.
+	if (isWinner === null) {
 		getTurn()
 	} else if (isWinner === 'T') {
 		winnerBoard.textContent = `It's a cat's game. No player can have 3 marks in a row.`
@@ -123,7 +125,6 @@ function render(string, value) {
 }
 
 
-
 function getTurn () {
 	if (turn === 1) {
 		turnBoard.textContent = `X's turn.`
@@ -141,11 +142,16 @@ function getWinner () {
 			sum = sum + boardArray[winCombo[i][j]].value
 
 			if(Math.abs(sum) === 3){
-				isWinner = boardArray[winCombo[i][0]].value  
+				isWinner = boardArray[winCombo[i][0]].value 
+				for(let k=0;k<winCombo[i].length;k++) {
+					boardArray[winCombo[i][k]].className = "win"
+				}
+				// boardArray[winCombo[i][0]].className = "win"
+				// boardArray[winCombo[i][1]].className = "win"
+				// boardArray[winCombo[i][2]].className = "win"
 			} 
 		}
 	}
-
 
 	let countNull = 0
 	for(let i=0; i<boardArray.length;i++) {
@@ -164,7 +170,7 @@ function getWinner () {
 // when user clicks on one of the 9 squares, this function is invoked.
 // This function changes the value of the target and change the display with X or O
 // Change the turn after every play
-function addShape(event) { 
+function chooseSquare(event) { 
 	if (event.target.value === null && isWinner === null) {
 		if (turn === 1) {
 			event.target.value = 1
@@ -179,7 +185,7 @@ function addShape(event) {
 	}
 }
 
-function pickTurn (evt) {
+function chooseShape (evt) {
 	if(evt.target.textContent === 'X'){
 		turn = 1
 	} else if (evt.target.textContent === 'O') {
