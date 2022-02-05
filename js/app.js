@@ -1,6 +1,17 @@
 /*-------------------------------- Constants --------------------------------*/
-[1, 1, 1, null, null, null, null, null, null]
-[1, 1, 1, null, null, null, null, null, null]
+const winCombo = 
+[
+	[0,1,2],
+	[3,4,5],
+	[6,7,8],
+	[0,3,6],
+	[1,4,7],
+	[2,5,8],
+	[0,4,8],
+	[2,4,6]
+]
+
+
 
 /*---------------------------- Variables (state) ----------------------------*/
 let boardArray, turn, isWinner
@@ -37,6 +48,7 @@ function init() {
 		element.innerHTML = ""
 	})
 
+	// console.log(boardArray[0])
 	// Update message
 	messageEl.textContent = "Welcome to the game of Tic-Tac-Toe"
 	
@@ -66,25 +78,40 @@ function init() {
 	render()
 }
 
-function render() {
+function render(string, value) {
+	// Use the index of the iteration to access the square in the squares array (array[i]) that corresponds with the current cell being iterated over in the board array
+	// Style that square however you wish dependant on the value contained in the current cell being iterated over (-1, 1, or null)
+	for(let i=0;i<boardArray.length;i++) {
+		if(boardArray[i].id === string) {
+			boardArray[i].value = value
+			if(value === 1) {
+				boardArray[i].textContent = "X"
+			} else if (value === -1) {
+				boardArray[i].textContent = "O"
+			}
+		}
+	}
 	
-
-
-
-
-
 
 	// Check if there's a winner. If there's a winner, getWinner() function will assign a corresponding number to isWinner.
 	getWinner()
+	// check whether the game is a tie
+	isTie()
+	//
 
-	// If a winner has been determined, a correspoding message will be updated. 
-	if (isWinner === 1) {
-		winnerBoard.textContent = `Player X Wins. 3 X's in a row.`
-	} else if (isWinner === -1) {
-		winnerBoard.textContent = `Player O Wins. 3 O's in a row.`
-	} else { // if there's no winner, check whether the game is a tie.
-		isTie()
+	
+	if (isWinner !== null) {
+		getTurn()
+	} else if (isWinner === 'T') {
+		winnerBoard.textContent = `It's a cat's game. No player can have 3 marks in a row.`
+	} else {
+		if (isWinner === 1) {
+			winnerBoard.textContent = `Player X Wins. 3 X's in a row.`
+		} else if (isWinner === -1) {
+			winnerBoard.textContent = `Player O Wins. 3 O's in a row.`
+		}
 	}
+	
 
 	// if there's a winner or if the game is a tie, display the result
 	// remove hidden properties for replay button
@@ -95,7 +122,7 @@ function render() {
 		turnBoard.setAttribute("hidden", true)
 	}
 
-	console.log(winnerBoard.textContent)
+	// console.log(winnerBoard.textContent)
 }
 
 // Check whether the game is a Tie. When there's only 0 or 1 move left and there's no winner, it's a tie. 
@@ -109,15 +136,8 @@ function isTie () {
 		}
 
 		if(countNull < 1) {
-		// If it's a tie, update a corresponding message. 
-		// unhide the message in the winnerBoard section.
-			winnerBoard.textContent = `It's a cat's game. You are tied. No player can have 3 marks in a row.`
-			winnerBoard.removeAttribute("hidden")
-		// remove hidden properties for replay button
-			replayBtn.removeAttribute("hidden")
-		} else { 
-		// if it's not a tie, update whose turn it is.
-			getTurn()
+		// If it's a tie, update isWinner. 
+			isWinner = 'T'
 		}
 }
 
@@ -131,140 +151,31 @@ function getTurn () {
 
 
 function getWinner () {
-	// "X" Wins
+	for (let i=0;i<winCombo.length;i++)
+	{
+		let sum = 0
+		for(let j=0;j<winCombo[i].length;j++){
+			sum = sum + boardArray[winCombo[i][j]].value
 
-	// if(boardArray[0] === 1) {
-	// 	if(boardArray[1] === 1 && boardArray[2] === 1){
-	// 		isWinner = 1
-	// 	}
-	// 	if(boardArray[1] === 1 && boardArray[2] === 1){
-	// 		isWinner = 1
-	// 	}
-	// 	if(boardArray[1] === 1 && boardArray[2] === 1){
-	// 		isWinner = 1
-	// 	}
+			if(Math.abs(sum) === 3){
+				isWinner = boardArray[winCombo[i][0]].value  
+			} 
+		}
+	}
+
+	// if(isWinner !== 1 || isWinner !== -1) {
+	// 	const filteredArray = boardArray.filter(function(square){
+	// 		return square.value === null
+	// 	})	
+
+	// 	if (filteredArray.length < 1) {
+	// 		isWinner = 'T'		
+	// 	} else
+		
 	// }
+}
 
 
-	// if(sq0.value !== null && sq1.value !== null && sq2.value !== null) {
-	// 	if(sq0.value === sq1.value === sq2.value) {
-	// 		if(sq0.value === 1) {
-	// 			isWinner = 1
-	// 			sq0.className = "win"
-	// 			sq1.className = "win"
-	// 			sq2.className = "win"
-	// 		}
-	// 		else if (sq0.value === -1) {
-	// 			isWinner = -1
-	// 			sq0.className = "win"
-	// 			sq1.className = "win"
-	// 			sq2.className = "win"
-	// 		}
-
-	// 	}
-	// }
-	if(sq0.value === 1 && sq1.value === 1 && sq2.value === 1) {
-		isWinner = 1
-		sq0.className = "win"
-		sq1.className = "win"
-		sq2.className = "win"
-	}
-	if(sq0.value === 1 && sq3.value === 1 && sq6.value === 1) {
-		isWinner = 1
-		sq0.className = "win"
-		sq3.className = "win"
-		sq6.className = "win"
-	}
-	if(sq0.value === 1 && sq4.value === 1 && sq8.value === 1) {
-		isWinner = 1
-		sq0.className = "win"
-		sq4.className = "win"
-		sq8.className = "win"
-	}
-	if(sq1.value === 1 && sq4.value === 1 && sq7.value === 1) {
-		isWinner = 1
-		sq1.className = "win"
-		sq4.className = "win"
-		sq7.className = "win"
-	}
-	if(sq2.value === 1 && sq5.value === 1 && sq8.value === 1) {
-		isWinner = 1
-		sq2.className = "win"
-		sq5.className = "win"
-		sq8.className = "win"
-	}
-	if(sq2.value === 1 && sq4.value === 1 && sq6.value === 1) {
-		isWinner = 1
-		sq2.className = "win"
-		sq4.className = "win"
-		sq6.className = "win"
-	}
-	if(sq3.value === 1 && sq4.value === 1 && sq5.value === 1) {
-		isWinner = 1
-		sq3.className = "win"
-		sq4.className = "win"
-		sq5.className = "win"
-	}
-	if(sq6.value === 1 && sq7.value === 1 && sq8.value === 1) {
-		isWinner = 1
-		sq6.className = "win"
-		sq7.className = "win"
-		sq8.className = "win"
-	}
-
-
-
-	// "O" Wins
-	if(sq0.value === -1 && sq1.value === -1 && sq2.value === -1) {
-		isWinner = -1
-		sq0.className = "win"
-		sq1.className = "win"
-		sq2.className = "win"
-	}
-	if(sq3.value === -1 && sq4.value === -1 && sq5.value === -1) {
-		isWinner = -1
-		sq3.className = "win"
-		sq4.className = "win"
-		sq5.className = "win"
-	}
-	if(sq6.value === -1 && sq7.value === -1 && sq8.value === -1) {
-		isWinner = -1
-		sq6.className = "win"
-		sq7.className = "win"
-		sq8.className = "win"
-	}
-	if(sq0.value === -1 && sq3.value === -1 && sq6.value === -1) {
-		isWinner = -1
-		sq0.className = "win"
-		sq3.className = "win"
-		sq6.className = "win"
-	}
-	if(sq1.value === -1 && sq4.value === -1 && sq7.value === -1) {
-		isWinner = -1
-		sq1.className = "win"
-		sq4.className = "win"
-		sq7.className = "win"
-	}
-	if(sq2.value === -1 && sq5.value === -1 && sq8.value === -1) {
-		isWinner = -1
-		sq2.className = "win"
-		sq5.className = "win"
-		sq8.className = "win"
-	}
-	if(sq0.value === -1 && sq4.value === -1 && sq8.value === -1) {
-		isWinner = -1
-		sq0.className = "win"
-		sq4.className = "win"
-		sq8.className = "win"
-	}
-	if(sq2.value === -1 && sq4.value === -1 && sq6.value === -1) {
-		isWinner = -1
-		sq2.className = "win"
-		sq4.className = "win"
-		sq6.className = "win"
-	}
-
-} 
 
 // when user clicks on one of the 9 squares, this function is invoked.
 // This function changes the value of the target and change the display with X or O
@@ -273,15 +184,14 @@ function addShape(event) {
 	if (event.target.value === null && isWinner === null) {
 		if (turn === 1) {
 			event.target.value = 1
-			event.target.innerHTML = 'X'
+
 		} else if (turn === -1) {
 			event.target.value = -1
-			event.target.innerHTML = 'O'
 		}
 		turn = turn * -1
-		console.log(event.target.value)
-
-		render()
+		// console.log(event.target.value)
+		// console.log(event.target.id)
+		render(event.target.id, event.target.value)
 	}
 }
 
@@ -333,21 +243,9 @@ function pickTurn (evt) {
 25. different color for the win message when there's a winner or a tie
 26. color of the squares resets once replay is pressed
 27. Display an empty tic-tac-toe board when the page is initially displayed.
-
+// 28. turn is reversed
+29.turn/ winner message가 이상해짐 
+30. 이상한때 Tie가 나오고 게임이 멈춘다. 
+31. more difficult way of getting winning combos
 */
 
-	/* Winning combos
-	Horizontal
-	1. 0-1-2
-	2. 3-4-5
-	3. 6-7-8
-
-	Vertical
-	1. 0-3-6
-	2. 1-4-7
-	3. 2-5-8
-
-	Diagonal
-	1. 0-4-8
-	2. 2-4-6
-	*/
