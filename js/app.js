@@ -95,9 +95,6 @@ function render(string, value) {
 
 	// Check if there's a winner. If there's a winner, getWinner() function will assign a corresponding number to isWinner.
 	getWinner()
-	// check whether the game is a tie
-	isTie()
-	//
 
 	
 	if (isWinner !== null) {
@@ -125,21 +122,7 @@ function render(string, value) {
 	// console.log(winnerBoard.textContent)
 }
 
-// Check whether the game is a Tie. When there's only 0 or 1 move left and there's no winner, it's a tie. 
-function isTie () {
-		// You can figure out how many moves are left in the game by checking how many squares are still null. 
-		let countNull = 0
-		for(let i=0; i<boardArray.length;i++) {
-			if(boardArray[i].value === null) {
-				countNull++
-			}
-		}
 
-		if(countNull < 1) {
-		// If it's a tie, update isWinner. 
-			isWinner = 'T'
-		}
-}
 
 function getTurn () {
 	if (turn === 1) {
@@ -163,18 +146,19 @@ function getWinner () {
 		}
 	}
 
-	// if(isWinner !== 1 || isWinner !== -1) {
-	// 	const filteredArray = boardArray.filter(function(square){
-	// 		return square.value === null
-	// 	})	
 
-	// 	if (filteredArray.length < 1) {
-	// 		isWinner = 'T'		
-	// 	} else
-		
-	// }
+	let countNull = 0
+	for(let i=0; i<boardArray.length;i++) {
+		if(boardArray[i].value === null) {
+			countNull++
+		}
+	}
+
+	if(countNull < 1) {
+	// If it's a tie, update isWinner. 
+		isWinner = 'T'
+	}
 }
-
 
 
 // when user clicks on one of the 9 squares, this function is invoked.
