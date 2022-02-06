@@ -45,8 +45,7 @@ buttons.addEventListener("click", chooseShape)
 init()
 
 // initalize function resets everything (or assign blank values if first time) on the page and every variable behind the scene. 
-// when reset is complete, render() is invoked.
-// I need to explore whether I need to invoke render() in init(). The program works fine without invoking it here.
+// when reset is complete, render() is invoked. But i commented it out since the program works fine without invoking it here. 
 function init() {
 	// map each square to the corresponding places in boardArray = [sq0, sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8] 
 	boardArray = [sq0,sq1,sq2,sq3,sq4,sq5,sq6,sq7,sq8]
@@ -62,8 +61,9 @@ function init() {
 	// Update message
 	messageEl.textContent = "Welcome to the game of Tic-Tac-Toe"
 	
-	// set inital turn to X's turn ('X'=1, 'O'=-1)
-	turn = 1 
+	// set inital turn to null.
+	// Will be assigned a value by chooseShape().
+	turn = null 
 
 	// set isWinner to null (1, -1, T, null)
 	isWinner = null 
@@ -85,11 +85,14 @@ function init() {
 	winnerBoard.className = ""
 
 	// render output
-	render()
+	// render()
 }
 
-
-// render function won't do anything the first time the page loads before a user performs an action since the board array since nothing has been passed as parameters.
+// Render() function is not required to be invoked because the only state variable that needs to be rendered at first is handled by chooseShape() function I think. I'm not sure if it's good architecture though.
+// Render() function is invoked when user clicks a square (handleClick() --> get Winner())
+// When invoked, it updates the div area of each square that is not null with correspoding shape (1=x, -1=o)
+// checks if there's a winner or tie, and renders a congratutory message or a tie message. 
+// if there's no winner or tie yet, display whose turn it is by invoking displayTurn() function.
 function render() {
 	// Use the index of the iteration to access the square in the squares array (array[i]) that corresponds with the current cell being iterated over in the board array
 	// Style that square however you wish dependant on the value contained in the current cell being iterated over (-1, 1, or null)
@@ -103,10 +106,10 @@ function render() {
 		}
 	}
 	
-		// If there's a winner or a tie, end the game and show corresponding message. 
-	// If game is still ungoing (isWinner === null), invoke getTurn() to update whose turn to play it is.
+	// If game is still ungoing (isWinner === null), invoke dispalyTurn() to update whose turn to play it is.
+	// If there's a winner or a tie, end the game and show corresponding message. 
 	if (isWinner === null) {
-		getTurn()
+		dispalyTurn()
 	} else if (isWinner === 'T') {
 		winnerBoard.textContent = `It's a cat's game. No player possesses 3 marks in a row.`
 	} else {
@@ -120,7 +123,7 @@ function render() {
 	}
 	
 
-	// if there's a winner or if the game is a tie, display the result
+
 	// remove hidden properties for replay button
 	// turnBoard will become hidden
 	if(isWinner !== null) {
@@ -129,11 +132,10 @@ function render() {
 		turnBoard.setAttribute("hidden", true)
 	}
 
-	// console.log(winnerBoard.textContent)
 }
 
-
-function getTurn () {
+// invoked by render() and chooseShape() at first. assigns whose turn it is.
+function dispalyTurn () {
 	if (turn === 1) {
 		turnBoard.textContent = `X's turn.`
 		} else {
@@ -141,7 +143,11 @@ function getTurn () {
 		}
 }
 
-
+// invoked by handleClick().
+// check if there's a winner using the winCombo array. 
+// Update isWinner variable if there's a winner, and change the CSS of the color of 3 letters that compose a winning formula.
+// if there's no winner, check for a tie
+// render() with newly updated state variables. 
 function getWinner () {
 	for (let i=0;i<winCombo.length;i++)
 	{
@@ -176,23 +182,22 @@ function getWinner () {
 
 
 // when user clicks on one of the 9 squares, this function is invoked.
-// This function changes the value of the target and change the display with X or O
-// Change the turn after every play
+// This function changes the value of a clicked square's value to the shape that belongs to whomever that chose it in his/her turn.
+// Then change the turn.
+// invoke getWinner()
 
 function handleClick(event)	{
 	for(let i=0; i<boardArray.length; i++) {
 		if (boardArray[i].id === event.target.id && isWinner === null) {
-				// console.log(`boardArray[i] id: ${boardArray[i].id}`)
-				// console.log(`event target id: ${event.target.id}`)	
-				// console.log(`boardArray[i].value before: ${boardArray[i].value}`)				
 				boardArray[i].value = turn
-				// console.log(`boardArray[i].value after: ${boardArray[i].value}`)		
 				turn = turn * -1
 		}
  }	
 	getWinner()
 }
 
+// this function is used at the very beginning to determine which shape the user wants to play with.
+// Your turn is determined here. 
 function chooseShape (evt) {
 	if(evt.target.textContent === 'X'){
 		turn = 1
@@ -200,8 +205,8 @@ function chooseShape (evt) {
 		turn = -1
 	}
 
-	// update who's turnBoard
-	getTurn()
+	// update whose turn it is with new turn state variable.
+	dispalyTurn()
 	// hide mark buttons if a mark has been selected. 
 	buttons.setAttribute("hidden", true)
 	// show play board if a mark has been selected. 
@@ -236,7 +241,7 @@ function chooseShape (evt) {
 20. Write a ternary function
 21. other stuff in instructions
 22. comments pseudo-code
-23. 쓸데없는 else if 정리
+23. eliminate unecessary else if's
 24. bootstrap link 없애면 board 안 사라지는 문제 해결하기
 25. different color for the win message when there's a winner or a tie
 26. color of the squares resets once replay is pressed
