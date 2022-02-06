@@ -114,10 +114,10 @@ function render() {
 		winnerBoard.textContent = `It's a cat's game. No player possesses 3 marks in a row.`
 	} else {
 		if (isWinner === 1) {
-			winnerBoard.textContent = `Player X Wins. 3 X's in a row (straigth line or diagonal).`
+			winnerBoard.textContent = `Player X Wins. 3 X's in a row (straight line or diagonal).`
 			winnerBoard.className = "win"
 		} else if (isWinner === -1) {
-			winnerBoard.textContent = `Player O Wins. 3 O's in a row (straigth line or diagonal).`
+			winnerBoard.textContent = `Player O Wins. 3 O's in a row (straight line or diagonal).`
 			winnerBoard.className = "win"
 		}
 	}
@@ -164,18 +164,20 @@ function getWinner () {
 		}
 	}
 
-	// Check for a Tie
-	let countNull = 0
-	for(let i=0; i<boardArray.length;i++) {
-		if(boardArray[i].value === null) {
-			countNull++
+	// Check for a Tie if there's no winner yet
+	if(isWinner === null) {
+		let countNull = 0
+			for(let i=0; i<boardArray.length;i++) {
+				if(boardArray[i].value === null) {
+					countNull++
+				}
+			}
+		// If it's a tie, update isWinner. 
+		if(countNull < 1) {
+			isWinner = 'T'
 		}
 	}
 
-	// If it's a tie, update isWinner. 
-	if(countNull < 1) {
-		isWinner = 'T'
-	}
 
 	render()
 }
@@ -239,12 +241,12 @@ function chooseShape (evt) {
 // 18. condense win logic function
 // 19. condense declaration of "sq" variables
 20. Write a ternary function
-21. other stuff in instructions
-22. comments pseudo-code
+// 21. other stuff in instructions
+// 22. comments pseudo-code
 23. eliminate unecessary else if's
-24. bootstrap link 없애면 board 안 사라지는 문제 해결하기
-25. different color for the win message when there's a winner or a tie
-26. color of the squares resets once replay is pressed
+24. board doesn't disappear initially when bootstrap source is linked
+// 25. different color for the win message when there's a winner or a tie
+// 26. color of the squares resets once replay is pressed
 27. Display an empty tic-tac-toe board when the page is initially displayed.
 // 28. turn is reversed
 // 29.turn/ winner message가 이상해짐 
