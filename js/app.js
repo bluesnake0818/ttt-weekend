@@ -50,7 +50,6 @@ init()
 function init() {
 	// map each square to the corresponding places in boardArray = [sq0, sq1, sq2, sq3, sq4, sq5, sq6, sq7, sq8] 
 	boardArray = [sq0,sq1,sq2,sq3,sq4,sq5,sq6,sq7,sq8]
-
 	// map each square value to null 
 	// reset each shape and color in the square
 	boardArray.forEach(element => {
@@ -91,29 +90,25 @@ function init() {
 
 
 // render function won't do anything the first time the page loads before a user performs an action since the board array since nothing has been passed as parameters.
-function render(string, value) {
+function render() {
 	// Use the index of the iteration to access the square in the squares array (array[i]) that corresponds with the current cell being iterated over in the board array
 	// Style that square however you wish dependant on the value contained in the current cell being iterated over (-1, 1, or null)
 	for(let i=0;i<boardArray.length;i++) {
-		if(boardArray[i].id === string) {
-			boardArray[i].value = value
-			if(value === 1) {
+		if(boardArray[i].id !== null) {
+			if(boardArray[i].value === 1) {
 				boardArray[i].textContent = "X"
-			} else if (value === -1) {
+			} else if (boardArray[i].value === -1) {
 				boardArray[i].textContent = "O"
 			}
 		}
 	}
 	
-	// Check if there's a winner. If there's a winner, getWinner() function will assign a corresponding number to isWinner.
-	getWinner()
-	
-	// If there's a winner or a tie, end the game and show corresponding message. 
+		// If there's a winner or a tie, end the game and show corresponding message. 
 	// If game is still ungoing (isWinner === null), invoke getTurn() to update whose turn to play it is.
 	if (isWinner === null) {
 		getTurn()
 	} else if (isWinner === 'T') {
-		winnerBoard.textContent = `It's a cat's game. No player can have 3 marks in a row.`
+		winnerBoard.textContent = `It's a cat's game. No player possesses 3 marks in a row.`
 	} else {
 		if (isWinner === 1) {
 			winnerBoard.textContent = `Player X Wins. 3 X's in a row (straigth line or diagonal).`
@@ -175,6 +170,8 @@ function getWinner () {
 	if(countNull < 1) {
 		isWinner = 'T'
 	}
+
+	render()
 }
 
 
@@ -182,29 +179,18 @@ function getWinner () {
 // This function changes the value of the target and change the display with X or O
 // Change the turn after every play
 
-// function handleClick(event)	{
-// 	console.log(`event.target.id: ${event.target.id}`)
-// 	if()
-
-// }
-
-
-function handleClick(event) { 
-
-	if (event.target.value === null && isWinner === null) {
-		if (turn === 1) {
-			event.target.value = 1
-
-		} else if (turn === -1) {
-			event.target.value = -1
+function handleClick(event)	{
+	for(let i=0; i<boardArray.length; i++) {
+		if (boardArray[i].id === event.target.id && isWinner === null) {
+				// console.log(`boardArray[i] id: ${boardArray[i].id}`)
+				// console.log(`event target id: ${event.target.id}`)	
+				// console.log(`boardArray[i].value before: ${boardArray[i].value}`)				
+				boardArray[i].value = turn
+				// console.log(`boardArray[i].value after: ${boardArray[i].value}`)		
+				turn = turn * -1
 		}
-		turn = turn * -1
-		// console.log(event.target.value)
-		// console.log(event.target.id)
-		console.log(`event.id is: ${event.id}`)
-		console.log(`event.target.id: ${event.target.id}`)
-		render(event.target.id, event.target.value)
-	}
+ }	
+	getWinner()
 }
 
 function chooseShape (evt) {
