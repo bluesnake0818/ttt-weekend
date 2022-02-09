@@ -189,10 +189,13 @@ function getWinner () {
 // invoke getWinner()
 
 function handleClick(event)	{
+
 	for(let i=0; i<boardArray.length; i++) {
 		if (boardArray[i].id === event.target.id && isWinner === null) {
+			if(boardArray[i].value === null) {
 				boardArray[i].value = turn
 				turn = turn * -1
+			}
 		}
  }	
 	getWinner()
